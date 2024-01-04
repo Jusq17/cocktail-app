@@ -1,34 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import DrinkInfo from './components/DrinkInfo'
+import Search from './components/Search' 
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+
+  const [cocktails, setCocktails] = useState([])
+  const [randomCocktail, setRandomCocktail] = useState()
+  const [searchField, setSearchField] = useState('')
+
+  useEffect(() => {
+
+    getRandomCocktail()
+  },[])
+
+  const getRandomCocktail = () => {
+
+    axios
+      .get('https://www.thecocktaildb.com/api/json/v1/1/random.php')
+      .then(response => setRandomCocktail(response.data.drinks))
+  }
+
+  const handleSearchFieldChange = (event) => {
+
+    console.log(event.target.value)
+    setSearchField(event.target.value)
+
+    axios
+      .get(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${event.target.value}`)
+      .then(response => setCocktails(response.data.drinks))
+  }
+
+  console.log(randomCocktail)
+  console.log(cocktails)
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <h1>Bevarage Bay</h1>
+      <Search searchField={searchField} handleChange={handleSearchFieldChange} />
+
+      { cocktails.length > 0
+        ? cocktails.map((cocktail) => <DrinkInfo cocktail={cocktail} />)
+        : <DrinkInfo cocktail={randomCocktail} />
+      }
+    </div>
   )
 }
 
