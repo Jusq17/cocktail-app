@@ -7,7 +7,7 @@ import './App.css'
 const App = () => {
 
   const [cocktails, setCocktails] = useState([])
-  const [randomCocktail, setRandomCocktail] = useState()
+  const [randomCocktail, setRandomCocktail] = useState([])
   const [searchField, setSearchField] = useState('')
 
   useEffect(() => {
@@ -41,8 +41,14 @@ const App = () => {
       <Search searchField={searchField} handleChange={handleSearchFieldChange} />
 
       { cocktails.length > 0
-        ? cocktails.map((cocktail) => <DrinkInfo cocktail={cocktail} />)
-        : <DrinkInfo cocktail={randomCocktail} />
+        ? cocktails.map((drink) => {
+
+          console.log(drink)
+          return(
+            <DrinkInfo key={drink} drink={drink} />
+          )
+        })
+        : randomCocktail.map((drink) => <DrinkInfo key={drink} drink={drink} />)
       }
     </div>
   )
