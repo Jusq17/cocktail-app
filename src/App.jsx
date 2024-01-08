@@ -7,8 +7,12 @@ import './App.css'
 const App = () => {
 
   const [cocktails, setCocktails] = useState([])
-  const [randomCocktail, setRandomCocktail] = useState([])
   const [searchField, setSearchField] = useState('')
+
+  const alpha = Array.from(Array(26)).map((e, i) => i + 65)
+  const alphabet = alpha.map((x) => String.fromCharCode(x))
+  alphabet.splice(20,1)
+  alphabet.splice(22,1)
 
   useEffect(() => {
 
@@ -19,7 +23,14 @@ const App = () => {
 
     axios
       .get('https://www.thecocktaildb.com/api/json/v1/1/random.php')
-      .then(response => setRandomCocktail(response.data.drinks))
+      .then(response => setCocktails(response.data.drinks))
+  }
+
+  const getCocktailByFirst = (char) => {
+
+    axios
+      .get(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${char}`)
+      .then(response => setCocktails(response.data.drinks))
   }
 
   const handleSearchFieldChange = (event) => {
@@ -32,13 +43,16 @@ const App = () => {
       .then(response => setCocktails(response.data.drinks))
   }
 
-  console.log(randomCocktail)
   console.log(cocktails)
 
   return (
     <div>
       <h1>Bevarage Bay</h1>
+
+      { alphabet.map((char) => <button onClick={() => getCocktailByFirst(char)}>{char}</button>) }
+
       <Search searchField={searchField} handleChange={handleSearchFieldChange} />
+      <button onClick={() => getRandomCocktail()}>Random cocktail</button>
 
       { cocktails.length > 0
         ? cocktails.map((drink) => {
@@ -48,7 +62,7 @@ const App = () => {
             <DrinkInfo key={drink} drink={drink} />
           )
         })
-        : randomCocktail.map((drink) => <DrinkInfo key={drink} drink={drink} />)
+        : cocktails.map((drink) => <DrinkInfo key={drink} drink={drink} />)
       }
     </div>
   )
