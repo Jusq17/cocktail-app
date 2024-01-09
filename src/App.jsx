@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import Grid from '@mui/material/Grid';
 import DrinkInfo from './components/DrinkInfo'
-import Search from './components/Search' 
+import Search from './components/Search'
 import './App.css'
 
 const App = () => {
@@ -47,12 +48,22 @@ const App = () => {
 
   return (
     <div>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+        style={{ minHeight: '100vh' }}
+      >
       <h1>Bevarage Bay</h1>
 
-      { alphabet.map((char) => <button onClick={() => getCocktailByFirst(char)}>{char}</button>) }
+      <Grid item xs={3}>
+        { alphabet.map((char) => <button onClick={() => getCocktailByFirst(char)}>{char}</button>) }
 
-      <Search searchField={searchField} handleChange={handleSearchFieldChange} />
-      <button onClick={() => getRandomCocktail()}>Random cocktail</button>
+        <Search searchField={searchField} handleChange={handleSearchFieldChange} />
+        <button onClick={() => getRandomCocktail()}>Random cocktail</button>
+      </Grid>
 
       { cocktails.length > 0
         ? cocktails.map((drink) => {
@@ -64,6 +75,7 @@ const App = () => {
         })
         : cocktails.map((drink) => <DrinkInfo key={drink} drink={drink} />)
       }
+      </Grid>
     </div>
   )
 }
