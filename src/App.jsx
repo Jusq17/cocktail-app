@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid'
 import DrinkInfo from './components/DrinkInfo'
 import Search from './components/Search'
+import Button from '@mui/material/Button'
 import './App.css'
 
 const App = () => {
@@ -58,11 +59,11 @@ const App = () => {
       >
       <h1>Bevarage Bay</h1>
 
-      <Grid item xs={3}>
-        { alphabet.map((char) => <button onClick={() => getCocktailByFirst(char)}>{char}</button>) }
+      <Grid item xs={4} xl={10}>
+        { alphabet.map((char) => <button key={char} onClick={() => getCocktailByFirst(char)}>{char}</button>) }
 
         <Search searchField={searchField} handleChange={handleSearchFieldChange} />
-        <button onClick={() => getRandomCocktail()}>Random cocktail</button>
+        <Button sx={{ margin: '20px' }} color="secondary" variant="contained" onClick={() => getRandomCocktail()}>Random cocktail</Button>
       </Grid>
 
       { cocktails.length > 0

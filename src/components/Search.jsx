@@ -1,10 +1,10 @@
+import TextField from '@mui/material/TextField'
 
 const Search = (props) => {
 
   return(
     <div>
-      <h3>Search:</h3>
-      <input value={props.searchField} onChange={props.handleChange} />
+      <TextField sx={{ margin: '20px' }} label="Search for a drink" color="secondary" variant="standard" value={props.searchField} onChange={props.handleChange} />
     </div>
   )
 }
