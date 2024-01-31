@@ -4,12 +4,18 @@ import Grid from '@mui/material/Grid'
 import DrinkInfo from './components/DrinkInfo'
 import Search from './components/Search'
 import Button from '@mui/material/Button'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
 import './App.css'
+import { Typography } from '@mui/material'
 
 const App = () => {
 
   const [cocktails, setCocktails] = useState([])
   const [searchField, setSearchField] = useState('')
+  const [ingredient, setIngredient] = useState('')
 
   const alpha = Array.from(Array(26)).map((e, i) => i + 65)
   const alphabet = alpha.map((x) => String.fromCharCode(x))
@@ -45,6 +51,15 @@ const App = () => {
       .then(response => setCocktails(response.data.drinks))
   }
 
+  const handleIngredientChange = (event) => {
+
+    setIngredient(event.target.value)
+
+    axios
+      .get(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${event.target.value}`)
+      .then(response => setCocktails(response.data.drinks))
+  }
+
   console.log(cocktails)
 
   return (
@@ -57,16 +72,33 @@ const App = () => {
         justify="center"
         style={{ minHeight: '100vh' }}
       >
-      <h1>Bevarage Bay</h1>
+      <Typography sx={{ margin: '20px' }} variant='h2'>Bevarage Bay</Typography>
 
       <Grid item xs={4} xl={10}>
         { alphabet.map((char) => <button key={char} onClick={() => getCocktailByFirst(char)}>{char}</button>) }
 
         <Search searchField={searchField} handleChange={handleSearchFieldChange} />
+
+        <FormControl variant="filled" sx={{ m: 1, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-label">Ingredient</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={ingredient}
+              label="Ingredient"
+              onChange={handleIngredientChange}
+            >
+              <MenuItem value={"vodka"}>Vodka</MenuItem>
+              <MenuItem value={"gin"}>Gin</MenuItem>
+              <MenuItem value={"rum"}>Rum</MenuItem>
+              <MenuItem value={"tequila"}>Tequila</MenuItem>
+            </Select>
+        </FormControl>
+
         <Button sx={{ margin: '20px' }} color="secondary" variant="contained" onClick={() => getRandomCocktail()}>Random cocktail</Button>
       </Grid>
 
-      { cocktails.length > 0
+      { cocktails != null && cocktails.length > 0
         ? cocktails.map((drink) => {
 
           console.log(drink)
@@ -74,7 +106,7 @@ const App = () => {
             <DrinkInfo key={drink} drink={drink} />
           )
         })
-        : cocktails.map((drink) => <DrinkInfo key={drink} drink={drink} />)
+        : <Typography variant='h4'>No drinks found</Typography>
       }
       </Grid>
     </div>
