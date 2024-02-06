@@ -1,10 +1,19 @@
-import TextField from '@mui/material/TextField'
+import React from 'react'
+import { TextField, Button } from '@mui/material'
 
-const Search = (props) => {
-
-  return(
+const Search = ({ searchField, handleChange, handleSearchClick }) => {
+  return (
     <div>
-      <TextField sx={{ margin: '20px' }} label="Search for a drink" color="secondary" variant="standard" value={props.searchField} onChange={props.handleChange} />
+      <TextField
+        label="Search"
+        variant="filled"
+        value={searchField}
+        onChange={handleChange}
+        sx={{ marginRight: '10px', marginTop: '10px'}}
+      />
+      <Button sx={{ marginTop: '20px'}} variant="contained" color="primary" onClick={handleSearchClick}>
+        Search
+      </Button>
     </div>
   )
 }

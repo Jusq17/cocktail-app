@@ -10,8 +10,6 @@ import GetIngredients from '../functions/GetIngredients'
 
 const DrinkInfo = ({ drink }) => {
 
-  const [likes, setLikes] = useState(0)
-
   console.log(drink)
 
   const ingredients = GetIngredients(drink)
@@ -32,7 +30,7 @@ const DrinkInfo = ({ drink }) => {
       <CardContent>
         <Typography sx={{ fontFamily: 'Trebuchet MS, sans-serif', padding: '8px', color:'#1d474f' }} variant='h6'>{ingredients.map((ingredient) => `${ingredient}`)}</Typography>
         <Typography sx={{ fontFamily: 'Trebuchet MS, sans-serif', color:'#1d474f' }} variant='body1'>{drink.strInstructions}</Typography>
-        <Button sx={{ fontFamily: 'Trebuchet MS, sans-serif', color:'bisque', marginTop: '5px' }} variant='contained' onClick={() => setLikes(likes+1)}>Like {likes}</Button>
+        { drink.strVideo !== null && <Button sx={{ fontFamily: 'Trebuchet MS, sans-serif', color:'bisque', marginTop: '5px' }} variant='contained' href={drink.strVideo} target="_blank">Video</Button> }
       </CardContent>
     </Card>
   )
