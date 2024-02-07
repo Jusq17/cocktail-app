@@ -15,7 +15,7 @@ const DrinkInfo = ({ drink }) => {
   const ingredients = GetIngredients(drink)
 
   return(
-    <Card style={{ backgroundColor: "bisque" }} className='drink' variant="outlined" sx={{ maxWidth: 450 }}>
+    <Card style={{ backgroundColor: "#FFEAC0" }} className='drink' variant="outlined" sx={{ maxWidth: 450 }}>
       <CardHeader
         titleTypographyProps={{ fontFamily: 'Trebuchet MS, sans-serif', variant:'h3', color:'#1d474f' }}
         variant='h1'

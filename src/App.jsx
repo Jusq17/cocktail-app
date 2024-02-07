@@ -104,31 +104,48 @@ const App = () => {
         justify="center"
         style={{ minHeight: '100vh' }}
       >
-      <Typography sx={{ margin: '20px' }} variant='h2'>Bevarage Bay</Typography>
+      <Typography sx={{ fontFamily: 'Trebuchet MS, sans-serif', margin: '20px', color: '#1d474f' }} variant='h2'>Bevarage Bay</Typography>
 
-      <Grid item xs={4} xl={10}>
-        { alphabet.map((char) => <button key={char} onClick={() => getCocktailByFirst(char)}>{char}</button>) }
-
-        <Search searchField={searchField} handleChange={(event) => setSearchField(event.target.value)} handleSearchClick={handleSearchClick} />
-
-        <FormControl variant="filled" sx={{ m: 1, minWidth: 200 }}>
+      <Grid item xs={12} xl={8} md={10} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px', width: '100%', maxWidth: '400px' }}>
+          {alphabet.map((char) => (
+            <button key={char} onClick={() => getCocktailByFirst(char)} style={{ margin: '2px', padding: '5px 7px', fontSize: '20px' }}>
+              {char}
+            </button>
+          ))}
+        </div>
+        <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
+          <Search
+            searchField={searchField}
+            handleChange={(event) => setSearchField(event.target.value)}
+            handleSearchClick={handleSearchClick}
+          />
+        </div>
+        <FormControl color="secondary" sx={{ minWidth: 200, marginBottom: '10px' }}>
           <InputLabel id="demo-simple-select-label">Ingredient</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={ingredient}
-              label="Ingredient"
-              onChange={handleIngredientChange}
-            >
-              <MenuItem value={"vodka"}>Vodka</MenuItem>
-              <MenuItem value={"gin"}>Gin</MenuItem>
-              <MenuItem value={"rum"}>Rum</MenuItem>
-              <MenuItem value={"tequila"}>Tequila</MenuItem>
-            </Select>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={ingredient}
+            label="Ingredient"
+            onChange={handleIngredientChange}
+          >
+            <MenuItem value={"vodka"}>Vodka</MenuItem>
+            <MenuItem value={"gin"}>Gin</MenuItem>
+            <MenuItem value={"rum"}>Rum</MenuItem>
+            <MenuItem value={"tequila"}>Tequila</MenuItem>
+          </Select>
         </FormControl>
-
-        <Button sx={{ margin: '20px' }} color="secondary" variant="contained" onClick={() => getRandomCocktail()}>Random cocktail</Button>
+        <Button
+          sx={{ marginBottom: '10px', marginTop: '10px', fontSize: '20px'}}
+          color="secondary"
+          variant="contained"
+          onClick={() => getRandomCocktail()}
+        >
+          Random Cocktail
+        </Button>
       </Grid>
+
 
       { cocktails != null && cocktails.length > 0
         ? cocktails.map((drink) => {
