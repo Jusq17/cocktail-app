@@ -2,20 +2,25 @@ import React from 'react'
 import { TextField, Button } from '@mui/material'
 
 const Search = ({ searchField, handleChange, handleSearchClick }) => {
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearchClick()
+    }
+  }
+  
   return (
     <div>
       <TextField
-        label="Search"
+        label="Search by name"
         color="secondary"
         variant="filled"
         value={searchField}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         focused
-        sx={{ marginRight: '10px', marginTop: '10px'}}
+        sx={{ marginLeft: '10px', minWidth: '200px' }}
       />
-      <Button sx={{ marginTop: '20px'}} variant="contained" color="primary" onClick={handleSearchClick}>
-        Search
-      </Button>
     </div>
   )
 }

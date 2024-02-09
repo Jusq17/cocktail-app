@@ -3,6 +3,7 @@ import axios from 'axios'
 import Grid from '@mui/material/Grid'
 import DrinkInfo from './components/DrinkInfo'
 import Search from './components/Search'
+import IngredientFilter from './components/IngredientFilter'
 import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
@@ -11,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem'
 import './App.css'
 import { Typography } from '@mui/material'
 import LoadingSpinner from './components/LoadingSpinner'
+import drinks from './services/drinks'
 
 const App = () => {
 
@@ -26,62 +28,61 @@ const App = () => {
 
   useEffect(() => {
 
-    getRandomCocktail()
+    handleRandomCocktail()
   },[])
 
-  const getRandomCocktail = () => {
+  const handleRandomCocktail = async () => {
 
     setLoading(true)
-    axios
-      .get('https://www.thecocktaildb.com/api/json/v1/1/random.php')
-      .then(response => {
-        setCocktails(response.data.drinks);
-        setLoading(false)})
-      .catch(error => {
-        setLoading(false)
-        console.error(error)
-      })
+    try {
+      const cocktail = await drinks.getRandomCocktail()
+      setCocktails(cocktail)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.error(error)
+    }
   }
 
-  const getCocktailByFirst = (char) => {
+  const getCocktailByFirst = async (char) => {
 
     setLoading(true)
-    axios
-      .get(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${char}`)
-      .then(response => {
-        setCocktails(response.data.drinks);
-        setLoading(false)})
-      .catch(error => {
-        setLoading(false)
-        console.error(error)
-      })
+    try {
+      const cocktail = await drinks.getCocktailByFirst(char)
+      setCocktails(cocktail)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.error(error)
+    }
   }
 
-  const handleSearchClick = () => {
+  const handleSearchClick = async () => {
 
     setLoading(true)
-
-    axios
-      .get(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchField}`)
-      .then(response => {
-        setCocktails(response.data.drinks)
-        setLoading(false)})
-      .catch(error => {
-        setLoading(false)
-        console.error(error)
-      })
+    try {
+      const cocktail = await drinks.getSearchedDrinks(searchField)
+      setCocktails(cocktail)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.error(error)
+    }
   }
 
-  const handleIngredientChange = (event) => {
+  const handleIngredientChange = async (event) => {
 
     setLoading(true)
-
-    setIngredient(event.target.value)
-    axios
-      .get(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${event.target.value}`)
-      .then(response => {
-        setCocktails(response.data.drinks);
-        setLoading(false)})
+    console.log(ingredient)
+    console.log(event.target.value)
+    try {
+      const cocktail = await drinks.getDrinksByIngredient(event.target.value)
+      setCocktails(cocktail)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.error(error)
+    }
   }
 
   console.log(cocktails)
@@ -114,33 +115,21 @@ const App = () => {
             </button>
           ))}
         </div>
-        <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', marginTop: '10px', width: '100%', maxWidth: '400px' }}>
+          <IngredientFilter 
+            ingredient={ingredient} 
+            handleIngredientChange={handleIngredientChange} />
           <Search
             searchField={searchField}
             handleChange={(event) => setSearchField(event.target.value)}
             handleSearchClick={handleSearchClick}
           />
         </div>
-        <FormControl color="secondary" sx={{ minWidth: 200, marginBottom: '10px' }}>
-          <InputLabel id="demo-simple-select-label">Ingredient</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={ingredient}
-            label="Ingredient"
-            onChange={handleIngredientChange}
-          >
-            <MenuItem value={"vodka"}>Vodka</MenuItem>
-            <MenuItem value={"gin"}>Gin</MenuItem>
-            <MenuItem value={"rum"}>Rum</MenuItem>
-            <MenuItem value={"tequila"}>Tequila</MenuItem>
-          </Select>
-        </FormControl>
         <Button
-          sx={{ marginBottom: '10px', marginTop: '10px', fontSize: '20px'}}
+          sx={{ marginLeft: '10px', marginBottom: '10px', fontSize: '15px'}}
           color="secondary"
           variant="contained"
-          onClick={() => getRandomCocktail()}
+          onClick={() => handleRandomCocktail()}
         >
           Random Cocktail
         </Button>
