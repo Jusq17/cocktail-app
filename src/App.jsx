@@ -26,6 +26,8 @@ const App = () => {
   alphabet.splice(20,1)
   alphabet.splice(22,1)
 
+  const isMobile = window.innerWidth <= 480
+
   useEffect(() => {
 
     handleRandomCocktail()
@@ -73,8 +75,7 @@ const App = () => {
   const handleIngredientChange = async (event) => {
 
     setLoading(true)
-    console.log(ingredient)
-    console.log(event.target.value)
+    
     try {
       const cocktail = await drinks.getDrinksByIngredient(event.target.value)
       setCocktails(cocktail)
@@ -84,8 +85,6 @@ const App = () => {
       console.error(error)
     }
   }
-
-  console.log(cocktails)
 
   if (loading) {
     return(
@@ -105,16 +104,13 @@ const App = () => {
         justify="center"
         style={{ minHeight: '100vh' }}
       >
-      <Typography sx={{ fontFamily: 'Trebuchet MS, sans-serif', margin: '20px', color: '#1d474f' }} variant='h2'>Bevarage Bay</Typography>
+      <Typography 
+        sx={{ fontFamily: 'Trebuchet MS, sans-serif', fontSize: isMobile ? '50px' : '70px', marginTop: '40px', marginBottom: '10px', color: '#1d474f' }}
+        variant='h2'>
+          Bevarage Bay
+      </Typography>
 
       <Grid item xs={12} xl={8} md={10} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px', width: '100%', maxWidth: '400px' }}>
-          {alphabet.map((char) => (
-            <button key={char} onClick={() => getCocktailByFirst(char)} style={{ margin: '2px', padding: '5px 7px', fontSize: '20px' }}>
-              {char}
-            </button>
-          ))}
-        </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', marginTop: '10px', width: '100%', maxWidth: '400px' }}>
           <IngredientFilter 
             ingredient={ingredient} 
@@ -126,7 +122,7 @@ const App = () => {
           />
         </div>
         <Button
-          sx={{ marginLeft: '10px', marginBottom: '10px', fontSize: '15px'}}
+          sx={{ marginBottom: '10px', fontSize: '15px'}}
           color="secondary"
           variant="contained"
           onClick={() => handleRandomCocktail()}
@@ -138,8 +134,6 @@ const App = () => {
 
       { cocktails != null && cocktails.length > 0
         ? cocktails.map((drink) => {
-
-          console.log(drink)
           return(
             <DrinkInfo key={drink} drink={drink} />
           )

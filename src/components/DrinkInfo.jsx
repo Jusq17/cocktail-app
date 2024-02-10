@@ -10,12 +10,11 @@ import GetIngredients from '../functions/GetIngredients'
 
 const DrinkInfo = ({ drink }) => {
 
-  console.log(drink)
-
+  const isMobile = window.innerWidth <= 480
   const ingredients = GetIngredients(drink)
 
   return(
-    <Card style={{ backgroundColor: "#FFEAC0" }} className='drink' variant="outlined" sx={{ maxWidth: 450 }}>
+    <Card style={{ backgroundColor: "#FFEAC0" }} className='drink' variant="outlined" sx={{ maxWidth: isMobile ? '320px' : '450px', marginBottom: '20px' }}>
       <CardHeader
         titleTypographyProps={{ fontFamily: 'Trebuchet MS, sans-serif', variant:'h3', color:'#1d474f' }}
         variant='h1'

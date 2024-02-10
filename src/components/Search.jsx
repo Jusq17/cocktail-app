@@ -19,7 +19,7 @@ const Search = ({ searchField, handleChange, handleSearchClick }) => {
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         focused
-        sx={{ marginLeft: '10px', minWidth: '200px' }}
+        sx={{ maxWidth: '170px' }}
       />
     </div>
   )
