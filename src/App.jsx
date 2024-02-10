@@ -1,14 +1,9 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Grid from '@mui/material/Grid'
 import DrinkInfo from './components/DrinkInfo'
 import Search from './components/Search'
 import IngredientFilter from './components/IngredientFilter'
 import Button from '@mui/material/Button'
-import FormControl from '@mui/material/FormControl'
-import InputLabel from '@mui/material/InputLabel'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
 import './App.css'
 import { Typography } from '@mui/material'
 import LoadingSpinner from './components/LoadingSpinner'
@@ -75,7 +70,7 @@ const App = () => {
   const handleIngredientChange = async (event) => {
 
     setLoading(true)
-    
+
     try {
       const cocktail = await drinks.getDrinksByIngredient(event.target.value)
       setCocktails(cocktail)
