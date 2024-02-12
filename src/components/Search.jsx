@@ -1,5 +1,4 @@
-import React from 'react'
-import { TextField, Button } from '@mui/material'
+import { TextField } from '@mui/material'
 
 const Search = ({ searchField, handleChange, handleSearchClick }) => {
 
@@ -19,7 +18,7 @@ const Search = ({ searchField, handleChange, handleSearchClick }) => {
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         focused
-        sx={{ maxWidth: '170px' }}
+        sx={{ maxWidth: '170px', marginRight: '2px'}}
       />
     </div>
   )

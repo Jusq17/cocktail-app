@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react'
-import Grid from '@mui/material/Grid'
+import { Typography, Button, Grid } from '@mui/material'
 import DrinkInfo from './components/DrinkInfo'
 import Search from './components/Search'
 import IngredientFilter from './components/IngredientFilter'
-import Button from '@mui/material/Button'
-import './App.css'
-import { Typography } from '@mui/material'
 import LoadingSpinner from './components/LoadingSpinner'
 import drinks from './services/drinks'
+import './App.css'
 
 const App = () => {
 
@@ -15,11 +13,6 @@ const App = () => {
   const [searchField, setSearchField] = useState('')
   const [ingredient, setIngredient] = useState('')
   const [loading, setLoading] = useState(true)
-
-  const alpha = Array.from(Array(26)).map((e, i) => i + 65)
-  const alphabet = alpha.map((x) => String.fromCharCode(x))
-  alphabet.splice(20,1)
-  alphabet.splice(22,1)
 
   const isMobile = window.innerWidth <= 480
 
@@ -107,13 +100,14 @@ const App = () => {
 
       <Grid item xs={12} xl={8} md={10} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', marginTop: '10px', width: '100%', maxWidth: '400px' }}>
-          <IngredientFilter 
-            ingredient={ingredient} 
-            handleIngredientChange={handleIngredientChange} />
           <Search
             searchField={searchField}
             handleChange={(event) => setSearchField(event.target.value)}
             handleSearchClick={handleSearchClick}
+          />
+          <IngredientFilter 
+            ingredient={ingredient} 
+            handleIngredientChange={handleIngredientChange} 
           />
         </div>
         <Button

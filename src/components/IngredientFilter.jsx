@@ -7,8 +7,8 @@ const IngredientFilter = ({ ingredient, handleIngredientChange }) => {
 
   return(
       
-    <FormControl color="secondary" sx={{ minWidth: "170px" }}>
-      <InputLabel>Filter</InputLabel>
+    <FormControl variant='filled' color="secondary" focused sx={{ minWidth: "170px", marginLeft: "2px" }}>
+      <InputLabel>Filter by ingredient</InputLabel>
         <Select
           value={ingredient}
           label="Ingredient"
