@@ -16,7 +16,7 @@ const DrinkInfo = ({ drink }) => {
       />
       <CardMedia
         component="img"
-        height="450"
+        height={isMobile ? 350 : 450}
         image={drink.strDrinkThumb}
         alt="Drink"
       />
